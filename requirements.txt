@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+gunicorn
+google-cloud-aiplatform
+pydantic-settings
+python-dotenv
