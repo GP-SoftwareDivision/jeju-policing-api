@@ -10,7 +10,6 @@ def _create_briefing_document(context_data) -> str:
 
         context_items.append("[분석 주제]")
         context_items.append(f"- 추천 업종: {context_data.recommended_industry}")
-        context_items.append(f"- 추천 위치: {context_data.recommended_location}")
         
         context_items.append("\n[상권 특성]")
         context_items.append(f"- 상권 유형: {context_data.commercial_type_level}")
@@ -52,10 +51,11 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
     summary_instruction = (
         "[모든 분석을 종합한 최종 요약 보고서. 각 문장을 배열(array)의 요소로 구성.]\\n"
         "예시:\\n"
-        "[\"종합적으로 본 상권에서는 디저트 카페 업종이 가장 적합합니다.\", "
-        "\"권장 입지는 유동인구가 많은 주거 밀집 지역이며, 중저가 메뉴와 테이크아웃 중심 운영을 통해 경쟁력을 확보하는 것이 좋습니다.\", "
+        "[\"종합적으로 본 상권에서는 '[추천 업종]'이 가장 적합합니다.\", "
+        "\"권장 입지는 유동인구가 많은 '[권장 입지]'이며, 중저가 메뉴와 테이크아웃 중심 운영을 통해 경쟁력을 확보하는 것이 좋습니다.\", "
         "\"주요 타깃은 20~30대 여성이며, 주말 피크타임에 마케팅 역량을 집중하는 전략을 추천합니다.\"]\\n\\n"
         "**참고: 위 예시는 참고사항일 뿐이며, 제공된 컨텍스트에 맞춰 내용을 창의적으로 분석하되, 각 문장을 배열의 요소로 만드는 형식은 유지해야 합니다.**"
+        "**참고: 소상공인에게 권장할 '[권장 입지]'는'[입지 평가 의견]'에 포함되어 있다.**"
     )
 
     task_instruction = f"""
@@ -80,7 +80,7 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
     }}
     """
 
-    generation_config = GenerationConfig(temperature=0.4, max_output_tokens=4096)
+    generation_config = GenerationConfig(temperature=1.0, max_output_tokens=4096)
     model = GenerativeModel(model_name=settings.LLM_MODEL_NAME, system_instruction=fixed_system_prompt)
 
     try:

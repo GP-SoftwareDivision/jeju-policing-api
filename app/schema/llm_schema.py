@@ -18,7 +18,6 @@ class TopMenuItem(BaseModel):
 class AnalysisContext(BaseModel):
     """API가 받을 모든 데이터를 담는 단일 'context' 객체의 상세 명세"""
     recommended_industry: str
-    recommended_location: str
     commercial_type_level: str
     competition_level: str
     timely_population_chart_data: list[ChartDataItem]
@@ -38,7 +37,7 @@ class AnalysisInput(BaseModel):
 
 class FullReportResponse(BaseModel):
     """클라이언트에게 반환될 최종 API 응답(Response)의 전체 구조"""
-    price_strategy: list[str]      # <--- str에서 list[str]로 변경
-    operation_strategy: list[str]  # <--- str에서 list[str]로 변경
+    price_strategy: list[str] 
+    operation_strategy: list[str]  
     title: str
     summary: list[str]
