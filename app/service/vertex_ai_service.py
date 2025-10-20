@@ -1,5 +1,6 @@
 # vertexai.init() 부분을 main.py로 옮겼으므로 여기서는 삭제합니다.
 import json
+import time
 from vertexai.generative_models import GenerativeModel, GenerationConfig
 from app.core.config import settings
 from app.schema.llm_schema import AnalysisInput  
@@ -80,13 +81,18 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
     }}
     """
 
-    generation_config = GenerationConfig(temperature=1.0, max_output_tokens=4096)
+    generation_config = GenerationConfig(temperature=settings.LLM_TEMPERATURE, max_output_tokens=settings.LLM_MAX_TOKENS)
     model = GenerativeModel(model_name=settings.LLM_MODEL_NAME, system_instruction=fixed_system_prompt)
 
     try:
         # 3. AI 호출
+        start_time = time.time()
+        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] >>> AI 호출 시작...")
         response = model.generate_content(task_instruction, generation_config=generation_config)
         print(response)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] >>> AI 응답 수신 완료! (소요 시간: {elapsed_time:.2f}초)")
         # 4. AI 응답 파싱
         if response.candidates and response.candidates[0].content.parts:
             response_text = response.candidates[0].content.parts[0].text
@@ -97,7 +103,7 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
                 print(f"AI 응답 JSON 파싱 오류: {clean_json_str}")
                 return {"error": "AI가 유효한 JSON을 생성하지 못했습니다."}
         else:
-            return {"error": "AI로부터 응답을 받지 못했습니다. (안전 설정에 의해 차단되었을 수 있음)"}
+            return {"error": "AI로부터 응답을 받지 못했습니다."}
 
     except Exception as e:
         print(f"Vertex AI 호출 중 오류 발생: {e}")
