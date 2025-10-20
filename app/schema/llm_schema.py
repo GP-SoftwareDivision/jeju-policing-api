@@ -9,8 +9,8 @@ class ChartDataItem(BaseModel):
 
 class TopMenuItem(BaseModel):
     """판매 예상 TOP 메뉴의 구조"""
-    menu_name: str = Field(description="메뉴 이름")
-    rank: int = Field(description="메뉴 순위")
+    label: str = Field(description="메뉴 이름")
+    value: int = Field(description="메뉴 순위")
 
 
 # --- 2. API 요청 모델 ---

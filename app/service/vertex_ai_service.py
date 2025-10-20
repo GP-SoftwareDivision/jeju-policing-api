@@ -30,7 +30,7 @@ def _create_briefing_document(context_data) -> str:
         context_items.append(f"- 일반 점포 수: {context_data.general_store_cnt}개")
         context_items.append(f"- 프랜차이즈 점포 수: {context_data.franchise_store_cnt}개")
 
-        menus_str = ", ".join([f"{item.rank}위({item.menu_name})" for item in context_data.top_selling_menus_status_data])
+        menus_str = ", ".join([f"{item.value}위({item.label})" for item in context_data.top_selling_menus_status_data])
         context_items.append("\n[수익성 예측]")
         context_items.append(f"- 예상 월 매출: {context_data.avg_monthly_sales // 10000}만원")
         context_items.append(f"- 인기 예상 메뉴: {menus_str}")
@@ -74,8 +74,8 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
     [JSON 결과물 양식]
     {{
       "title": "[보고서 내용 전체를 대표하는 간결하고 전문적인 제목]",
-      "price_strategy": "[핵심 가격 전략을 나타내는 키워드 또는 짧은 구(phrase)의 배열(array). 예: [\"중저가 전략\", \"회전율 중심\", \"가성비 세트 메뉴\"]]",
-      "operation_strategy": "[핵심 운영 전략을 나타내는 키워드 또는 짧은 구(phrase)의 배열(array). 예: [\"테이크아웃 집중\", \"주말 피크타임 인력 보강\", \"SNS 감성 마케팅\"]]",
+      "price_strategy": "[핵심 가격 전략을 나타내는 키워드 또는 짧은 구(phrase)의 배열(array). **정확히 2개의 요소**만 포함해야 함. 예: [\"중저가 전략\", \"회전율 중심\", \"가성비 세트 메뉴\"]]",
+      "operation_strategy": "[핵심 운영 전략을 나타내는 키워드 또는 짧은 구(phrase)의 배열(array). **정확히 2개의 요소**만 포함해야 함. 예: [\"테이크아웃 집중\", \"주말 피크타임 인력 보강\", \"SNS 감성 마케팅\"]]",
       "summary": {summary_instruction}
     }}
     """
