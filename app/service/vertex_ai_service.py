@@ -102,6 +102,8 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
     **중요: JSON 출력 결과에는 '2-1' 같은 폴리곤 ID가 절대 노출되어서는 안 되며, 오직 [입지 추천 지역명]({context_data.area} 값)만 사용해야 한다.**
     반드시 아래 [출력 형식]과 동일한 JSON 형식으로만 답변해야 한다.
 
+    **[전략 키워드 생성 지침]:**
+    'price_strategy'와 'operation_strategy'는 [입력 데이터]를 바탕으로 가장 중요하고 핵심적인 키워드를 **정확히 2개씩** 추출하여 배열로 만들어야 한다. **절대로 1개나 3개 이상을 반환해서는 안 된다.**
 
     [출력 형식]
     {{
@@ -114,12 +116,12 @@ def generate_full_report(request_input: AnalysisInput) -> dict:
         "다섯 번째 요약 문장입니다.",
       ],
       "price_strategy": (array[string]) [
-        "가격 전략 키워드 1 (예: '고급화')",
-        "가격 전략 키워드 2 (예: '가성비')"
+        "가장 중요한 가격 전략 키워드 1",
+        "두 번째로 중요한 가격 전략 키워드 2"
       ],
       "operation_strategy": (array[string]) [
-        "운영 전략 키워드 1 (예: '테이크아웃 전문')",
-        "운영 전략 키워드 2 (예: '주말 피크타임 집중')"
+        "가장 중요한 운영 전략 키워드 1",
+        "두 번째로 중요한 운영 전략 키워드 2"
       ]
     }}
     
